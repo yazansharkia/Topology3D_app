@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "379749496592",
+    "project_id": "berlin-d9835",
+    "storage_bucket": "berlin-d9835.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379749496592:android:5a5a74586cd143db125795",
+        "android_client_info": {
+          "package_name": "com.Chaptire.Topology3D"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379749496592-c584bbi7v562pt2rqvm1sq9cq0j5qov8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrc1XAsxRZ0vt8CyuPBLT4KSBXVRL2sR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379749496592-c584bbi7v562pt2rqvm1sq9cq0j5qov8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "379749496592-1l9r92eav11a0ebfk3egmtf3i5g83bv8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.topology3d.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
