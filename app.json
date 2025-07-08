@@ -20,16 +20,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-<<<<<<< HEAD
-      }
-=======
       },
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.Chaptire.Topology3D"
->>>>>>> 62ada78 (Add all project files including native android/ios directories and Firebase config)
     },
     "web": {
       "bundler": "metro",
@@ -37,11 +33,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-<<<<<<< HEAD
-       [
-=======
       [
->>>>>>> 62ada78 (Add all project files including native android/ios directories and Firebase config)
         "expo-video",
         {
           "supportsPictureInPicture": false,
@@ -51,11 +43,7 @@
       [
         "expo-camera",
         {
-<<<<<<< HEAD
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera. This app requires access to your camera to capture images for 3D modeling.",
-=======
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera. This app requires access to your camera to capture images for 3D modeling."
->>>>>>> 62ada78 (Add all project files including native android/ios directories and Firebase config)
         }
       ],
       "expo-router",
@@ -80,11 +68,7 @@
       "eas": {
         "projectId": "82baa689-2cdd-45d8-83a6-f8ba514b9955"
       }
-<<<<<<< HEAD
-    }
-=======
     },
     "owner": "yazansharkia"
->>>>>>> 62ada78 (Add all project files including native android/ios directories and Firebase config)
   }
 }
