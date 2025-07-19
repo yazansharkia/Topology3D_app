@@ -8,6 +8,7 @@ import AsyncStorage from 'react-native';
 import { auth } from './firebase'; // <-- your firebase file
 import { signInWithEmailAndPassword , signInAnonymously} from 'firebase/auth'; // <-- from Firebase
 
+const { width, height } = Dimensions.get('window');
 
 //const Stack = createStackNavigator();
 //const { width, height } = Dimensions.get('window');
@@ -51,7 +52,8 @@ const LoginScreen = () => {
 //            navigation.navigate('Instructions'); // or your next screen
           } catch (error) {
             console.log('Sign-in error:', error);
-            alert(error.message);
+            const err = error as Error;
+            alert(err.message);
           }
        
   };
@@ -86,10 +88,11 @@ const LoginScreen = () => {
         console.log('Signed in anonymously:', user);
         
         // Navigate to the home screen or scanning page
-        navigation.navigate('HomeScreen'); // Change this to the appropriate screen
+        navigation.navigate('HomeScreen' as never);
       } catch (error) {
         console.log('Anonymous Sign-in error:', error);
-        alert(error.message);
+        const err = error as Error;
+        alert(err.message);
       }
     };
     
@@ -116,7 +119,7 @@ const LoginScreen = () => {
           secureTextEntry
         />
         <Button title="Login" onPress={handleLogin} />
-        <Button title="Register" onPress={() => navigation.navigate('RegisterScreen')} />
+        <Button title="Register" onPress={() => navigation.navigate('RegisterScreen' as never)} />
  
         <TouchableOpacity style={styles.anonymousButton} onPress={handleAnonymousSignIn}>
           <Text style={styles.anonymousButtonText}>Continue as Guest</Text>
@@ -139,62 +142,58 @@ const styles = StyleSheet.create({
   },
     titleContainer: {
         position: 'absolute',
-        width: '100%',          // Adjusts the title position to be at 10% of the screen height // Makes sure the title is centered
-        alignItems: 'center', // Center the title horizontally
-        marginBottom: 40,
+        width: '100%',
+        alignItems: 'center',
+        marginBottom: height * 0.05, // Responsive margin
     },
     title: {
-        fontSize: 40, // Adjust this value to make the text larger
-    //    fontWeight: 'bold',
-        color: '#A3826C', // Same color as the default button color
+        fontSize: width * 0.1, // Responsive font size
+        color: '#A3826C',
         textAlign: 'center',
-        marginBottom: 40,
+        marginBottom: height * 0.05, // Responsive margin
     },
     FootertitleContainer: {
         position: 'absolute',
-         // Adjusts the title position to be at 10% of the screen height
-        width: '100%', // Makes sure the title is centered
-        alignItems: 'center', // Center the title horizontally
+        width: '100%',
+        alignItems: 'center',
     },
     FooterTitle: {
-        fontSize: 20, // Adjust this value to make the text larger
-        //    fontWeight: 'bold',
-        color: '#A3826C', // Same color as the default button color
+        fontSize: width * 0.05, // Responsive font size
+        color: '#A3826C',
         textAlign: 'center',
-        marginBottom: 10,
+        marginBottom: height * 0.012, // Responsive margin
     },
     loginBox: {
         width: '80%',
         alignItems: 'center',
         backgroundColor: '#EFEFEE',
-//        height: width- 2*width/3,
     },
     input: {
         width: '100%',
-        height: 40,
-         borderWidth: 1,
-         borderRadius: 5,
-        paddingLeft: 10,
-        marginBottom: 10,
+        height: height * 0.05, // Responsive height
+        borderWidth: 1,
+        borderRadius: width * 0.012, // Responsive border radius
+        paddingLeft: width * 0.025, // Responsive padding
+        marginBottom: height * 0.012, // Responsive margin
     },
     button: {
         backgroundColor: '#EFEFEE',
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 8,
-        marginBottom: 10,
+        paddingVertical: height * 0.015, // Responsive padding
+        paddingHorizontal: width * 0.05, // Responsive padding
+        borderRadius: width * 0.02, // Responsive border radius
+        marginBottom: height * 0.012, // Responsive margin
     },
     buttonText: {
-        fontSize: 18,
+        fontSize: width * 0.045, // Responsive font size
         color: '#EFEFEE',
         fontWeight: 'bold',
     },
     anonymousButton: {
-      backgroundColor: '#A3826C', // Same as other buttons
-      borderRadius: 8,
-      paddingVertical: 12,
-      paddingHorizontal: 20,
-      marginTop: 10,
+      backgroundColor: '#A3826C',
+      borderRadius: width * 0.02, // Responsive border radius
+      paddingVertical: height * 0.015, // Responsive padding
+      paddingHorizontal: width * 0.05, // Responsive padding
+      marginTop: height * 0.012, // Responsive margin
       alignItems: 'center',
       borderColor: '#A3826C',
       borderWidth: 2,
@@ -202,9 +201,8 @@ const styles = StyleSheet.create({
     anonymousButtonText: {
       color: 'white',
       fontWeight: 'bold',
-      fontSize: 16,
+      fontSize: width * 0.04, // Responsive font size
     },
-
 });
 
 export default LoginScreen;

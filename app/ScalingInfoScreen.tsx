@@ -10,7 +10,7 @@ const ScalingInfoScreen = () => {
   const navigation = useNavigation();
 
   const handleScan = () => {
-    navigation.navigate('ScalingCameraScreen');
+    navigation.navigate('ScalingCameraScreen' as never);
   };
     const handleBack = () => {
       navigation.goBack();
@@ -57,33 +57,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EFEFEE',
-    paddingHorizontal: 20,
+    paddingHorizontal: width * 0.05, // Responsive padding
   },
   background: {
     flex: 1,
     resizeMode: 'cover',
   },
   sectionTitle: {
-    fontSize: 32,
+    fontSize: width * 0.08, // Responsive font size
     fontWeight: 'bold',
     color: '#A3826C',
-    marginBottom: 30,
-    marginTop: 30,
+    marginBottom: height * 0.037, // Responsive margin
+    marginTop: height * 0.037, // Responsive margin
   },
   sectionText: {
-    fontSize: 18,
+    fontSize: width * 0.045, // Responsive font size
     textAlign: 'center',
     color: '#444',
-    marginBottom: 20,
-    marginTop: 100,
+    marginBottom: height * 0.025, // Responsive margin
+    marginTop: height * 0.125, // Responsive margin
     width: '80%',
-    top: -height*0.001,
-      
+    top: -height * 0.001,
   },
   privacyBox: {
     backgroundColor: '#FFF',
-    borderRadius: 12,
-    padding: 15,
+    borderRadius: width * 0.03, // Responsive border radius
+    padding: width * 0.037, // Responsive padding
     width: '90%',
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -91,47 +90,46 @@ const styles = StyleSheet.create({
     elevation: 3,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 50,
-    top: height*0.19,
+    marginBottom: height * 0.062, // Responsive margin
+    top: height * 0.19,
   },
   privacyIcon: {
-    marginRight: 10,
-    marginTop: 5,
+    marginRight: width * 0.025, // Responsive margin
+    marginTop: height * 0.006, // Responsive margin
   },
   privacyText: {
-    fontSize: 14,
+    fontSize: width * 0.035, // Responsive font size
     color: '#333',
     flex: 1,
   },
   continueButton: {
     backgroundColor: '#A3826C',
-    borderRadius: 30,
-    paddingVertical: 12,
-    paddingHorizontal: 40,
+    borderRadius: width * 0.075, // Responsive border radius
+    paddingVertical: height * 0.015, // Responsive padding
+    paddingHorizontal: width * 0.1, // Responsive padding
     alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 5,
-    top: height*0.18,
-    marginBottom: 50,
-    
+    top: height * 0.18,
+    marginBottom: height * 0.062, // Responsive margin
   },
   continueButtonText: {
     color: 'white',
-    fontSize: 18,
+    fontSize: width * 0.045, // Responsive font size
     fontWeight: 'bold',
   },
-    backButton: {
-      position: 'absolute',
-      top: 60,
-      left: 25,
-      zIndex: 1,
-    },
-    backButtonText: {
-      fontSize: 16,
-      color: '#007AFF',
-    },
+  backButton: {
+    position: 'absolute',
+    top: height * 0.075, // Responsive positioning
+    left: width * 0.062, // Responsive positioning
+    zIndex: 1,
+  },
+  backButtonText: {
+    fontSize: width * 0.04, // Responsive font size
+    color: '#007AFF',
+  },
 });
 
 export default ScalingInfoScreen;

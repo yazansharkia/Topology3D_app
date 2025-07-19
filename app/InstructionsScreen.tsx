@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { useNavigation } from '@react-navigation/native';
@@ -19,8 +19,9 @@ export default function InstructionsScreen() {
 
   const [currentPage, setCurrentPage] = useState(0);
   const navigation = useNavigation();
-
-  const handlePageChange = (event) => {
+  
+  const handlePageChange = (event: any) => {
+    console.log('Page changed to:', event.nativeEvent.position);
     setCurrentPage(event.nativeEvent.position);
   };
 
@@ -43,7 +44,7 @@ export default function InstructionsScreen() {
       </View>
     </SafeAreaView>
       {/* PagerView */}
-      <PagerView style={styles.container} initialPage={0} onPageSelected={handlePageChange}>
+      <PagerView  style={styles.container} initialPage={0} onPageSelected={handlePageChange}>
         {steps.map((step, index) => (
           <View key={step.key} style={styles.page}>
             <Text style={styles.title}>{step.content}</Text>
@@ -61,12 +62,11 @@ export default function InstructionsScreen() {
                     navigation.reset({
                       index: 1,
                       routes: [
-                        { name: 'index' },
-                        { name: 'HomeScreen' },
+                        { name: 'index' as never },
+                        { name: 'HomeScreen' as never },
                       ],
                     })
                   }
-
               >
                 <Text style={styles.continueButtonText}>Continue</Text>
               </TouchableOpacity>
@@ -105,11 +105,11 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 10,
+    paddingVertical: height * 0.012, // Responsive padding
     backgroundColor: '#F7F7F7',
   },
   tab: {
-    fontSize: 14,
+    fontSize: width * 0.035, // Responsive font size
     color: '#A3826C',
     opacity: 0.5,
   },
@@ -128,27 +128,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   title: {
-    fontSize: 24,
+    fontSize: width * 0.06, // Responsive font size
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: height * 0.012, // Responsive margin
   },
   image: {
-    width: 100,
-    height: 100,
-    marginVertical: 20,
+    width: width * 0.25, // Responsive width
+    height: width * 0.25, // Responsive height
+    marginVertical: height * 0.025, // Responsive margin
   },
 
   /** Continue Button **/
   continueButton: {
     backgroundColor: '#A3826C',
-    borderRadius: 30,
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    marginTop: 20,      
+    borderRadius: width * 0.075, // Responsive border radius
+    paddingVertical: height * 0.012, // Responsive padding
+    paddingHorizontal: width * 0.075, // Responsive padding
+    marginTop: height * 0.025, // Responsive margin
   },
   continueButtonText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: width * 0.04, // Responsive font size
   },
 
   /** Dots Pagination **/
@@ -156,31 +157,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: height * 0.012, // Responsive padding
   },
   dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    width: width * 0.025, // Responsive width
+    height: width * 0.025, // Responsive height
+    borderRadius: width * 0.012, // Responsive border radius
     backgroundColor: '#A3826C',
-    marginHorizontal: 5,
+    marginHorizontal: width * 0.012, // Responsive margin
     opacity: 0.3,
-    
   },
   activeDot: {
     opacity: 1,
   },
-    description: {
-      fontSize: 16,
-      color: '#555',
-      textAlign: 'center',
-      paddingHorizontal: 20,
-      marginTop: 10,
-    },
-    safeArea: {
-      backgroundColor: '#FFFFFF',
-        
-    },
+  description: {
+    fontSize: width * 0.04, // Responsive font size
+    color: '#555',
+    textAlign: 'center',
+    paddingHorizontal: width * 0.05, // Responsive padding
+    marginTop: height * 0.012, // Responsive margin
+  },
+  safeArea: {
+    backgroundColor: '#FFFFFF',
+  },
 
 
 });

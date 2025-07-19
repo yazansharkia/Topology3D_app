@@ -66,27 +66,27 @@
 
 // CompleteScreen: shown after task upload, ensures clean navigation structure
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, BackHandler } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, BackHandler, Dimensions } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from './firebase';
 
+const { width, height } = Dimensions.get('window');
+
 const user = auth.currentUser;
 
-const CompleteScreen = ({ route }) => {
+const CompleteScreen = ({ route }: { route: any }) => {
   const step = route?.params?.step || 'Task';
   const navigation = useNavigation();
-  const [nextTask, setNextTask] = useState(null);
+  const [nextTask, setNextTask] = useState<string | null>(null);
 
   useEffect(() => {
     const checkRemainingTasks = async () => {
-//      const scan = await AsyncStorage.getItem('scanComplete');
-//      const calibration = await AsyncStorage.getItem('calibrationComplete');
-//      const scaling = await AsyncStorage.getItem('scalingComplete');
-        const scan = await AsyncStorage.getItem(`${user.uid}_scanComplete`);
-        const calibration = await AsyncStorage.getItem('${user.uid}_calibrationComplete');
-        const scaling = await AsyncStorage.getItem('${user.uid}_scalingComplete');
-        
+      if (!user) return;
+      const scan = await AsyncStorage.getItem(`${user.uid}_scanComplete`);
+      const calibration = await AsyncStorage.getItem(`${user.uid}_calibrationComplete`);
+      const scaling = await AsyncStorage.getItem(`${user.uid}_scalingComplete`);
+      
       if (!scan) setNextTask('Scan');
       else if (!calibration) setNextTask('Calibration');
       else if (!scaling) setNextTask('Scaling');
@@ -101,7 +101,7 @@ const CompleteScreen = ({ route }) => {
       const onBackPress = () => {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'index' }],
+          routes: [{ name: 'index' as never }],
         });
         return true; // block default behavior
       };
@@ -113,22 +113,15 @@ const CompleteScreen = ({ route }) => {
     }, [navigation])
   );
 
-//  const handleGoHome = () => {
-//    navigation.reset({
-//      index: 0,
-//      routes: [{ name: 'HomeScreen' }],
-//    });
-//  };
-
-    const handleGoHome = () => {
-     navigation.reset({
-       index: 1,
-       routes: [
-         { name: 'index' },
-         { name: 'HomeScreen' }
-       ],
-     });
-   };
+  const handleGoHome = () => {
+    navigation.reset({
+      index: 1,
+      routes: [
+        { name: 'index' as never },
+        { name: 'HomeScreen' as never }
+      ],
+    });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>✅ {step?.charAt(0).toUpperCase() + step?.slice(1)} Complete!</Text>
@@ -152,25 +145,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f9f9f9',
-    paddingHorizontal: 30,
+    paddingHorizontal: width * 0.075, // Responsive padding
   },
   title: {
-    fontSize: 28,
+    fontSize: width * 0.07, // Responsive font size
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: height * 0.025, // Responsive margin
     color: '#2c3e50',
   },
   message: {
-    fontSize: 16,
+    fontSize: width * 0.04, // Responsive font size
     color: '#555',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: height * 0.037, // Responsive margin
   },
   button: {
     backgroundColor: '#A3826C',
-    borderRadius: 25,
-    paddingVertical: 12,
-    paddingHorizontal: 30,
+    borderRadius: width * 0.062, // Responsive border radius
+    paddingVertical: height * 0.015, // Responsive padding
+    paddingHorizontal: width * 0.075, // Responsive padding
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 2 },
@@ -179,7 +172,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: width * 0.04, // Responsive font size
     fontWeight: 'bold',
   },
 });

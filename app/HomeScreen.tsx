@@ -617,59 +617,66 @@ const HomeScreen = () => {
   });
 
   useEffect(() => {
-      const loadProgress = async () => {
-//          const scan = await AsyncStorage.getItem('scanComplete');
-          const scan = await AsyncStorage.getItem(`${user.uid}_scanComplete`);
-          const calibration = await AsyncStorage.getItem(`${user.uid}_calibrationComplete`);
-          const scale = await AsyncStorage.getItem(`${user.uid}_scalingComplete`);
-          setProgress({
-              scanComplete: scan === 'true',
-              calibrationComplete: calibration === 'true',
-              scalingComplete: scaling === 'true',
-          });
-          
-          console.log('scanComplete from storage:', scan);
-          console.log('calibration from storage:', calibration);
-          console.log('scaling from storage:', scaling);
-          
-
-      };
+    const loadProgress = async () => {
+      if (!user) return;
+      const scan = await AsyncStorage.getItem(`${user.uid}_scanComplete`);
+      const calibration = await AsyncStorage.getItem(`${user.uid}_calibrationComplete`);
+      const scale = await AsyncStorage.getItem(`${user.uid}_scalingComplete`);
+      setProgress({
+        scanComplete: scan === 'true',
+        calibrationComplete: calibration === 'true',
+        scalingComplete: scale === 'true',
+      });
+      console.log('scanComplete from storage:', scan);
+      console.log('calibration from storage:', calibration);
+      console.log('scaling from storage:', scale);
+    };
     loadProgress();
   }, []);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigation.navigate('index');
+      navigation.navigate('index' as never);
     } catch (error) {
-      console.error('Logout error:', error);
-      alert(error.message);
+      const err = error as Error;
+      console.error('Logout error:', err);
+      alert(err.message);
     }
   };
 
   const handleDeleteAccount = async () => {
     if (!user || isGuest) {
-      alert("Cannot delete guest account or user not found.");
+      alert('Cannot delete guest account or user not found.');
       return;
     }
     setIsModalVisible(true);
   };
 
   const handleBack = () => {
-    navigation.goBack(); // need to navigate back to index screen, keeping the transtion backwards
+    navigation.goBack();
   };
 
   const confirmDeletion = async () => {
+    if (!user) {
+      alert('No user found.');
+      return;
+    }
+    if (!user.email) {
+      alert('No email found for user.');
+      return;
+    }
     try {
       const credential = EmailAuthProvider.credential(user.email, password);
       await reauthenticateWithCredential(user, credential);
-      await deleteDoc(doc(db, "users", user.uid));
+      await deleteDoc(doc(db, 'users', user.uid));
       await deleteUser(user);
-      alert("Account deleted successfully.");
-      navigation.navigate('index');
+      alert('Account deleted successfully.');
+      navigation.navigate('index' as never);
     } catch (error) {
-      console.error("Error deleting account:", error);
-      alert(error.message);
+      const err = error as Error;
+      console.error('Error deleting account:', err);
+      alert(err.message);
     } finally {
       setIsModalVisible(false);
       setPassword('');
@@ -684,22 +691,27 @@ const HomeScreen = () => {
 
       <Text style={styles.title}>Welcome, {displayName}!</Text>
       {/* 🔹 Progress Tracker */}
+
+      {/* closed since might not needed
       <Button
         title={progress.calibrationComplete ? '🎯 Calibrate Camera ✅' : '🎯 Calibrate Camera ⬜'}
-        onPress={() => navigation.navigate('CalibrationInfoScreen')}
+        onPress={() => navigation.navigate('CalibrationInfoScreen' as never)}
       />
-
+      
+      {/* here we are thinking to add the A4 paper also under the and to be scaned with it*/}
       <Button
         title={progress.scanComplete ? "👣 Scan Your Foot ✅" : "👣 Scan Your Foot ⬜"}
-        onPress={() => navigation.navigate('ScanInfoScreen')}
+        onPress={() => navigation.navigate('ScanInfoScreen' as never)}
       />
-
+      
+      {/*closed since might not needed
       <Button
         title={progress.scalingComplete ? '📏 Scale with A4 ✅' : '📏 Scale with A4 ⬜'}
-        onPress={() => navigation.navigate('ScalingInfoScreen')}
+        onPress={() => navigation.navigate('ScalingInfoScreen' as never)}
       />
-          
-      <TouchableOpacity onPress={() => navigation.navigate('InstructionsScreen') } style={styles.InstructionsButton}>
+      */}
+         
+      <TouchableOpacity onPress={() => navigation.navigate('InstructionsScreen' as never ) } style={styles.InstructionsButton}>
         <Text style={styles.settingsButtonText}>❓</Text>
       </TouchableOpacity>
           
@@ -713,10 +725,10 @@ const HomeScreen = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Settings</Text>
-            {!isGuest && (
+            {!isGuest && user && (
               <Button title="Logout" onPress={handleLogout} color="#555" />
             )}
-            {!isGuest && (
+            {!isGuest && user && (
               <Button title="Delete Account" onPress={handleDeleteAccount} color="red" />
             )}
             <Button title="Close" onPress={() => setSettingsVisible(false)} />
@@ -756,32 +768,31 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 60,
-    left: 25,
+    top: height * 0.07, // ~7% from top
+    left: width * 0.06, // ~6% from left
     zIndex: 1,
   },
   backButtonText: {
-    fontSize: 16,
+    fontSize: width * 0.045, // Responsive font size
     color: '#007AFF',
   },
   title: {
-    fontSize: 24,
+    fontSize: width * 0.06, // Responsive font size
     fontWeight: 'bold',
-    marginBottom: 40,
+    marginBottom: height * 0.05, // Responsive margin
   },
   InstructionsButton:{
     position: 'absolute',
     bottom: 0,
-    left: width*88/100,
+    left: '88%', // Use percentage for left positioning
     right: 0,
-    height: height*94/100,
+    height: '94%', // Use percentage for height
   },
-    
   settingsButton: {
-    marginTop: 20,
+    marginTop: height * 0.025, // Responsive margin
   },
   settingsButtonText: {
-    fontSize: 16,
+    fontSize: width * 0.045, // Responsive font size
     color: '#007AFF',
   },
   progressContainer: {
@@ -806,20 +817,20 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 25,
-    borderRadius: 10,
+    padding: width * 0.06, // Responsive padding
+    borderRadius: width * 0.025, // Responsive border radius
     width: '80%',
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: width * 0.05, // Responsive font size
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: height * 0.025, // Responsive margin
   },
   input: {
     borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 10,
+    borderRadius: width * 0.012,
+    padding: width * 0.025,
+    marginVertical: height * 0.012,
     borderColor: '#ccc',
   },
   buttonRow: {
